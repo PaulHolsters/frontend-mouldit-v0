@@ -45,38 +45,41 @@ import { ConfirmPopupComponent } from './components/confirm-popup/confirm-popup.
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ToolbarModule} from "primeng/toolbar";
+import {ToastComponent} from "./components/toast/toast.component";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CardComponent,
-    ButtonComponent,
-    LogoComponent,
-    MenubarComponent,
-    ContainerComponent,
-    BlockComponent,
-    ImageComponent,
-    ToolbarComponent,
-    Image2Component,
-    AnchorComponent,
-    InputTextComponent,
-    InputNumberComponent,
-    LabelComponent,
-    DataComponent,
-    NumberComponent,
-    DateComponent,
-    FormComponent,
-    FormcontrolComponent,
-    RadioButtonComponent,
-    MultiselectComponent,
-    PicklistComponent,
-    TableComponent,
-    DialogComponent,
-    IconComponent,
-    PaginatorComponent,
-    ConfirmPopupComponent,
-    ContainerComponent
-  ],
+    declarations: [
+        AppComponent,
+        CardComponent,
+        ButtonComponent,
+        LogoComponent,
+        MenubarComponent,
+        ContainerComponent,
+        BlockComponent,
+        ImageComponent,
+        ToolbarComponent,
+        Image2Component,
+        AnchorComponent,
+        InputTextComponent,
+        InputNumberComponent,
+        LabelComponent,
+        DataComponent,
+        NumberComponent,
+        DateComponent,
+        FormComponent,
+        FormcontrolComponent,
+        RadioButtonComponent,
+        MultiselectComponent,
+        PicklistComponent,
+        TableComponent,
+        DialogComponent,
+        IconComponent,
+        PaginatorComponent,
+        ConfirmPopupComponent,
+        ContainerComponent,
+        ToastComponent
+    ],
   imports: [
     BrowserModule,
     CardModule,
@@ -95,7 +98,8 @@ import {ToolbarModule} from "primeng/toolbar";
     DialogModule,
     PaginatorModule,
     ConfirmPopupModule,
-    ToolbarModule
+    ToolbarModule,
+    ToastModule
   ],
   providers: [ConfirmationService,MessageService],
   bootstrap: [AppComponent]

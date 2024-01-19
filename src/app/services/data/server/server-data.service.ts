@@ -74,7 +74,6 @@ export class ServerDataService {
         //  m.a.w. de juiste keuze zal dan wellicht altijd zijn om de validatie volledig in de frontend af te handelen.
         this.http.post('http://localhost:5000/' + action.id,body).subscribe(result=>{
           if(isList(result)||isDataRecord(result)){
-            debugger
            // todo  this.actionFinished.next({trigger:TriggerType.ActionFinished,source:action.id,data:result})
             if (action.target) createOrUpdateClientData(this,action.id, action.target,undefined,result,effectAsSource)
           }

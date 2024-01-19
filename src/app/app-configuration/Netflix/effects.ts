@@ -90,39 +90,39 @@ export const effects: Effect[] = [
     'adding movie to my list'
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentClicked,'movie','movie-card-clicked',allowDetails),
+    new Trigger(TriggerType.ComponentClicked,'movie-card','movie-card-clicked',allowDetails),
     new Action('showMovieDetails',ActionType.SetRenderProperty,'movie-details-dialog',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.visible, true)),
     NoValueType.NO_VALUE_NEEDED
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentEntered,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentEntered,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.backgroundColor, BackgroundColorType.Highlight))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentEntered,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentEntered,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.borderColor, BorderColorType.Primary))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentEntered,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentEntered,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.borderWidth, BorderWidthType.Width_2))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentLeft,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentLeft,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.backgroundColor, BackgroundColorType.Default))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentLeft,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentLeft,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.borderColor, BorderColorType.Default))
   ),
   new Effect(
-    new Trigger(TriggerType.ComponentLeft,'movie'),
-    new Action('set background',ActionType.SetRenderProperty,'movie',NoValueType.NO_VALUE_ALLOWED,
+    new Trigger(TriggerType.ComponentLeft,'movie-card'),
+    new Action('set background',ActionType.SetRenderProperty,'movie-card',NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.borderWidth, BorderWidthType.No_width))
   ),
 ]

@@ -5,9 +5,13 @@ import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import UtilFunctions from "../../utils/utilFunctions";
 import {Datalink} from "../../design-dimensions/datalink";
 import {CursorValues} from "../../enums/cursorValues.enum";
+import {HorizontalRowLayoutConfigType} from "../../enums/HorizontalRowLayoutConfigTypes.enum";
+import {RowLayoutConfigModel} from "../../design-dimensions/ComponentSpecificLayout/Container/RowLayoutConfigModel";
+import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
+import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
 
 export const content = new Container('content')
-const card = new Card('movie')
+const card = new Card('movie-card')
 card.structural.smartphone
   .setPropertyByData(PropertyName.title,new Datalink('title'))
   .setPropertyByData(PropertyName.subtitle,new Datalink('release_year'))
@@ -26,4 +30,8 @@ remove.visibility.smartphone.setPropertyByData(PropertyName.visible,inList)
 btnContainer.setChildren([add,remove])
 card.contentInjection.smartphone.footer = btnContainer
 card.structural.smartphone.repeater = true
-content.setChildren([card])
+// todo fix bug deze 70% komt qua hoogte nu op content de buitenste en de binnenste div: de rest is nu in orde
+content.size.smartphone.setHeight(new NonCalculatedSizeConfigModel(70,SizeUnitConfigType.Percentage))
+content.setChildren([card]);
+(content.componentSpecificLayout.smartphone.layout as RowLayoutConfigModel)
+  .setHorizontalLayoutOfChildren(HorizontalRowLayoutConfigType.Around)
