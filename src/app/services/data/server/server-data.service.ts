@@ -24,6 +24,7 @@ import {ServerAction} from "../../../effectclasses/ServerAction";
 })
 export class ServerDataService {
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType,data:Object}>()
+  // todo dit type klopt niet meer, data moet een object zijn maar dat is niet het geval kan ook een data list zijn
   constructor(private configService:ConfigService,
               private actionsService:ActionsService,
               private clientDataService:ClientDataService,
@@ -73,7 +74,8 @@ export class ServerDataService {
         //  m.a.w. de juiste keuze zal dan wellicht altijd zijn om de validatie volledig in de frontend af te handelen.
         this.http.post('http://localhost:5000/' + action.id,body).subscribe(result=>{
           if(isList(result)||isDataRecord(result)){
-            this.actionFinished.next({trigger:TriggerType.ActionFinished,source:action.id,data:result})
+            debugger
+           // todo  this.actionFinished.next({trigger:TriggerType.ActionFinished,source:action.id,data:result})
             if (action.target) createOrUpdateClientData(this,action.id, action.target,undefined,result,effectAsSource)
           }
         })

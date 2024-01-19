@@ -8,7 +8,7 @@ import {SystemEffects} from "../effectclasses/systemEffects";
 import {ComponentModelType, isNoValueType} from "../types/union-types";
 import {ScreenSize} from "../enums/screenSizes.enum";
 import {NoValueType} from "../enums/NoValueTypes.enum";
-import {ActionIdType, ComponentNameType} from "../types/type-aliases";
+import {ActionIdType, ComponentNameType, FormTargetType, isComponentName} from "../types/type-aliases";
 import {Action} from "../effectclasses/Action";
 import {ServerAction} from "../effectclasses/ServerAction";
 
@@ -80,6 +80,7 @@ export class ConfigService {
           return effect.trigger.name === trigger && effect.trigger.source === source
         }))
       } else{
+        // todo dit is de tak voor LastIndexedComponent
         return this.appConfig.userConfig.effects.filter((effect) => {
           return effect.trigger.name === trigger && effect.trigger.source === source[0]
         }).concat(...SystemEffects.getSystemEffects().filter((effect: Effect) => {
@@ -91,15 +92,6 @@ export class ConfigService {
       }
     }
   }
-
-  /*
-  * export const RootComponent = new AppConfig({
-  components: [
-    mainContainer
-  ],
-  effects: effects
-})
-  * */
   public getConfigFromComponent(nameComponent: string, component: ComponentModelType): ComponentModelType | undefined {
     if (component.name === nameComponent) return component
     if (!component.children && !component.contentInjection) return undefined
@@ -113,6 +105,7 @@ export class ConfigService {
   }
 
   public getConfigFromRoot(nameComponent: string): ComponentModelType | undefined {
+    // todo fix bug, bij een repeated component krijg je undef terug??
     if ((this.appConfig.userConfig).components.length !== 1) throw new Error('Only one root component named content-container is allowed')
     return this.getConfigFromComponent(nameComponent, (this.appConfig.userConfig).components[0])
   }
@@ -279,6 +272,14 @@ export class ConfigService {
     return this.effects.find(e=>{
       return e.id === data
     }) !== undefined
+  }
+
+  isIndexedComponent(target: ComponentNameType |
+    FormTargetType |
+    NoValueType.CALCULATED_BY_ENGINE |
+    NoValueType.NO_VALUE_ALLOWED,
+    screensize:ScreenSize) {
+    return isComponentName(target,this) && (this.getConfigFromRoot(target)?.structural)?.getStructuralRenderProperties(screensize)?.repeater === true
   }
 }
 

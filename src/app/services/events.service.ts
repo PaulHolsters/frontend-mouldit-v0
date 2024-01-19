@@ -13,6 +13,7 @@ import {ActionType} from "../enums/actionTypes.enum";
 import {ComponentNameType, EffectIdType} from "../types/type-aliases";
 import {StateService} from "./state.service";
 import {isNoValueType} from "../types/union-types";
+import {CalculationService} from "./calculation.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class EventsService{
               private RBSService:ResponsiveBehaviourService,
               private storeService:RenderPropertiesService,
               private UIActionsService:UiActionsService,
-              private stateService:StateService) {
+              private stateService:StateService,
+              private calculationService:CalculationService) {
 
     this.UIActionsService.actionFinished.subscribe(res =>{
       this.triggerEvent(res.trigger,res.source)
@@ -40,7 +42,11 @@ export class EventsService{
     })
 
     this.serverDataService.actionFinished.subscribe(res =>{
-      this.triggerEvent(res.trigger,res.source)
+      this.triggerEvent(res.trigger,res.source,res.data)
+    })
+
+    this.calculationService.actionFinished.subscribe(res =>{
+      this.triggerEvent(res.trigger,res.source,res.value)
     })
 
     this.clientDataService.actionFinished.subscribe(res =>{
@@ -73,7 +79,10 @@ export class EventsService{
   }
 
   private runningEffects: [EffectIdType,number|undefined][] = []
-  public triggerEvent(trigger:TriggerType,source:ComponentNameType|[ComponentNameType,string]|[ComponentNameType,(number|undefined)]|ServiceType,data?:any,target?:EventTarget){
+  public triggerEvent(trigger:TriggerType,
+                      source:ComponentNameType|[ComponentNameType,string]|[ComponentNameType,(number|undefined)]|ServiceType,
+                      data?:any,
+                      target?:EventTarget){
     // todo werk any weg op termijn hier
     if(data && data instanceof AppConfig){
       this.configService.saveConfig(data)
@@ -97,7 +106,6 @@ export class EventsService{
       } else if(isNoValueType(effect.trigger.condition) ||
         (source instanceof Array && source.length===2 && (typeof source[1] === 'number'|| source[1]===undefined)
         && effect.trigger.condition(this,source))){
-        // todo het is wellicht deze die getriggered wordt en die bevat geen source => zet source er gewoon bij
         if(typeof source === 'number'){
           this.actionsService.triggerAction(effect,data,target)
         }else {
