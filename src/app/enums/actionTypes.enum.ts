@@ -20,4 +20,6 @@ export enum ActionType {
   UpdateDataDependedProperties,
   SetUpIndexedComponent,
   TerminateRunningEffect,
+  ShowToastMessage,
+  Calculation,
 }

@@ -13,6 +13,7 @@ import {CursorValues} from "../../enums/cursorValues.enum";
 import {BackgroundColorType} from "../../enums/backgroundColorType.enum";
 import {BorderColorType} from "../../enums/borderColorType.enum";
 import {BorderWidthType} from "../../enums/borderWidthType.enum";
+import {Message} from "primeng/api";
 
 // todo als de scherm breedte manueel gewijzigd wordt dan gaan bepaalde opstart eigenschappen niet meegenomen worden
 //  zoals deze compute property
@@ -22,6 +23,37 @@ const setFooterHeight = (stateService: StateService, data: any): string => {
 const allowDetails = (eventService: EventsService,data:any):boolean =>{
   return !(eventService.hasEffect(['removing movie from my list',data[1]])
     || eventService.hasEffect(['adding movie to my list',data[1]]))
+}
+const setCardWidth = (stateService: StateService): string | undefined => {
+  const noc = stateService.getNumberOfComponents('movie-card')
+  if (noc > 0) {
+    let widthstr = getComputedStyle(stateService.getValue('movie-card', PropertyName.elRef, 0).el.nativeElement.parentElement).width
+    let max: number = Number(widthstr.substring(0, widthstr.lastIndexOf('px')))
+    for (let i = 1; i < noc; i++) {
+      widthstr = getComputedStyle(stateService.getValue('movie-card', PropertyName.elRef, i).el.nativeElement.parentElement).width
+      if (max < Number(widthstr.substring(0, widthstr.lastIndexOf('px')))) max = Number(widthstr.substring(0, widthstr.lastIndexOf('px')))
+    }
+    return max + 'px'
+  }
+  return undefined
+}
+const toastConstructMovieAdded = (data: {
+  data: { _id: string, titel: string }, error?: {
+    errorcode: number, errorMessage: string;
+  }
+}): Message => {
+  if (data.error && data.error.errorcode !== 200 && data.error.errorcode !== 201) {
+    return {
+      severity: 'error',
+      summary: 'Probleem',
+      detail: data.error.errorMessage
+    }
+  }
+  debugger
+  return {
+    severity: 'success',
+    detail: 'Film ' + data.data.titel + ' werd toegevoegd aan jouw lijst'
+  }
 }
 export const effects: Effect[] = [
   new Effect(
@@ -33,6 +65,16 @@ export const effects: Effect[] = [
       'footer',
       NoValueType.NO_VALUE_ALLOWED,
       new ActionValueModel(PropertyName.height,setFooterHeight))),
+  new Effect(
+    new Trigger(TriggerType.LastIndexedComponentRendered, 'movie-card'),
+    new Action(
+      'UI-card-width',
+      ActionType.SetRenderProperty,
+      ['movie-card', true],
+      NoValueType.NO_VALUE_ALLOWED,
+      new ActionValueModel(PropertyName.width, setCardWidth)
+    )
+  ),
   new Effect(
     new Trigger(TriggerType.MenuItemSelected,['menu','films']),
     new ServerAction('getAllMovies','content')

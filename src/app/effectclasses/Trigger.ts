@@ -17,8 +17,14 @@ export class Trigger {
       case TriggerType.ComponentClicked:
         this.sourceType = SourceType.Component
         break
+      case TriggerType.ComponentClosed:
+        this.sourceType = SourceType.Component
+        break
       case TriggerType.RootComponentReady:
         this.sourceType = SourceType.Component
+        break
+      case TriggerType.LastIndexedComponentRendered:
+        this.sourceType = SourceType.System
         break
       case TriggerType.ActionFinished:
         this.sourceType = SourceType.Action

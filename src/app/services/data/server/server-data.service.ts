@@ -16,13 +16,14 @@ import {
   List,
 } from "../../../types/union-types";
 import {HttpClient} from "@angular/common/http";
+import {ServerAction} from "../../../effectclasses/ServerAction";
 
 // todo fix
 @Injectable({
   providedIn: 'root'
 })
 export class ServerDataService {
-  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType}>()
+  public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType,data:Object}>()
   constructor(private configService:ConfigService,
               private actionsService:ActionsService,
               private clientDataService:ClientDataService,
@@ -49,7 +50,7 @@ export class ServerDataService {
       )
     }
     this.actionsService.bindToAction(new Action('',ActionType.ExecuteServerAction))?.subscribe(res=>{
-      if(res){
+      if(res  && res.effect.action instanceof ServerAction){
         let effectAsSource:EffectAsSource|undefined = undefined
         if(isEffectIdType(res.effect.id,this.configService)){
           let source:number|undefined=undefined
@@ -58,7 +59,7 @@ export class ServerDataService {
           }
           effectAsSource = [res.effect.id,source]
         }
-        const action = res.effect.action
+        const action:Action|ServerAction = res.effect.action
         let body: {id:string}|undefined
         if(isDataRecord(res.data)){
           body = {id:res.data.id}
@@ -70,9 +71,10 @@ export class ServerDataService {
         //  in de frontendconfiguratie moet je dan enkel nog aangeven of je foute ingave wil blokkeren dan wel een warning geven
         //  of bij submit de nodige frontend errors tonen. Het voordeel is dat je geen server request moet sturen voor validatie
         //  m.a.w. de juiste keuze zal dan wellicht altijd zijn om de validatie volledig in de frontend af te handelen.
-        this.http.post('http://localhost:5000/' + action.id,body).subscribe(res=>{
-          if(isList(res)||isDataRecord(res)){
-            createOrUpdateClientData(this,action.id, action.target,undefined,res,effectAsSource)
+        this.http.post('http://localhost:5000/' + action.id,body).subscribe(result=>{
+          if(isList(result)||isDataRecord(result)){
+            this.actionFinished.next({trigger:TriggerType.ActionFinished,source:action.id,data:result})
+            if (action.target) createOrUpdateClientData(this,action.id, action.target,undefined,result,effectAsSource)
           }
         })
       }

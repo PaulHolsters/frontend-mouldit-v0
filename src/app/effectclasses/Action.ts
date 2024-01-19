@@ -2,7 +2,14 @@ import {TargetType} from "../enums/targetTypes.enum";
 import {ActionType} from "../enums/actionTypes.enum";
 import {ServiceType} from "../enums/serviceTypes.enum";
 import {ServiceMethodType} from "../enums/serviceMethodTypes.enum";
-import {ActionIdType, ComponentNameType, ConceptNameType, DataLink, FormTargetType} from "../types/type-aliases";
+import {
+  ActionIdType,
+  ComponentNameType,
+  ConceptNameType,
+  DataLink,
+  FormTargetType,
+  RepeatedComponentType
+} from "../types/type-aliases";
 import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {NoValueType} from "../enums/NoValueTypes.enum";
 export class Action {
@@ -12,7 +19,7 @@ export class Action {
   public constructor(
     public id:ActionIdType,
     public type:ActionType,
-    public target:ComponentNameType|FormTargetType|
+    public target:ComponentNameType|FormTargetType|RepeatedComponentType|
       NoValueType.CALCULATED_BY_ENGINE|
       NoValueType.NO_VALUE_ALLOWED
       =NoValueType.NO_VALUE_ALLOWED,
@@ -22,7 +29,7 @@ export class Action {
       NoValueType.NO_VALUE_ALLOWED
       =NoValueType.NO_VALUE_ALLOWED,
     public value:ActionValueModel|
-      NoValueType.NO_VALUE_ALLOWED
+      NoValueType.NO_VALUE_ALLOWED|Function
       =NoValueType.NO_VALUE_ALLOWED
   ) {
     switch (type){
@@ -34,6 +41,16 @@ export class Action {
       case ActionType.SetGlobalResponsiveBehaviour:
         this.service = ServiceType.RBSService
         this.serviceMethod = ServiceMethodType.SetResponsiveBehaviour
+        this.targetType = TargetType.Client
+        break
+      case ActionType.ShowToastMessage:
+        this.service = ServiceType.UIService
+        this.serviceMethod = ServiceMethodType.SetToast
+        this.targetType = TargetType.Client
+        break
+      case ActionType.Calculation:
+        this.service = ServiceType.CalculationService
+        this.serviceMethod = ServiceMethodType.Calculation
         this.targetType = TargetType.Client
         break
       case ActionType.CreateStore:
