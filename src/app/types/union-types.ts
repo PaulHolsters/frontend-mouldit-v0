@@ -188,13 +188,30 @@ import {
 import {CardStylingConfigModel} from "../design-dimensions/Styling/card/CardStylingConfigModel";
 import {CardStylingRenderModel} from "../design-dimensions/Styling/card/CardStylingRenderModel";
 import {ResponsiveStylingCardConfigModel} from "../design-dimensions/Styling/card/ResponsiveStylingCardConfigModel";
+import {
+  ResponsiveContentInjectionToastConfigModel
+} from "../design-dimensions/ContentInjection/toast/ResponsiveContentInjectionToastConfigModel";
+import {
+  ToastContentInjectionConfigModel
+} from "../design-dimensions/ContentInjection/toast/ToastContentInjectionConfigModel";
+import {
+  ToastContentInjectionRenderModel
+} from "../design-dimensions/ContentInjection/toast/ToastContentInjectionRenderModel";
+import {
+  ResponsiveToastLayoutConfigModel
+} from "../design-dimensions/ComponentSpecificLayout/Toast/ResponsiveToastLayoutConfigModel";
+import {
+  ResponsiveStructuralToastConfigModel
+} from "../design-dimensions/StructuralConfig/toast/ResponsiveStructuralToastConfigModel";
+import {Toast} from "../components/toast/Toast";
 
 // todo deze union types moeten opnieuw aangevuld worden
 
 export type ContentInjectionConfigModelType =
   DialogContentInjectionConfigModel |
   MenubarContentInjectionConfigModel|
-  TableContentInjectionConfigModel|never
+  TableContentInjectionConfigModel|
+  ToastContentInjectionConfigModel|never
 export type ComponentSpecificLayoutConfigModelType =
   ChildLayoutConfigModel |
   TableLayoutConfigModel | never
@@ -236,7 +253,8 @@ export type ConfigModelType =
 export type ContentInjectionRenderModelType =
   DialogContentInjectionRenderModel |
   MenubarContentInjectionRenderModel|
-  TableContentInjectionRenderModel|never
+  TableContentInjectionRenderModel|
+  ToastContentInjectionRenderModel|never
 export type ComponentSpecificLayoutRenderModelType =
   ChildLayoutRenderModel |
   TableLayoutRenderModel | never
@@ -278,7 +296,9 @@ export type RenderModelType =
 
 export type ResponsiveStylingConfigModelType =
   ResponsiveStylingTableConfigModel|ResponsiveStylingButtonConfigModel|ResponsiveStylingCardConfigModel|never
+
 export type ResponsiveStructuralConfigModelType =
+  ResponsiveStructuralToastConfigModel|
   ResponsiveStructuralTableConfigModel|
   ResponsiveStructuralButtonConfigModel|
   ResponsiveStructuralConfirmPopupConfigModel|
@@ -289,24 +309,30 @@ export type ResponsiveStructuralConfigModelType =
   ResponsiveStructuralCardConfigModel|
   ResponsiveStructuralTextConfigModel|
   never
+
 export type ResponsiveDataRepresentationConfigModelType =
   ResponsiveDataRepresentationMultiSelectConfigModel|
   ResponsiveDataRepresentationRadioButtonGroupConfigModel|
   ResponsiveDataRepresentationNumberInputConfigModel|
   ResponsiveDataRepresentationTextInputConfigModel|never
+
 export type ResponsiveDataInputConfigModelType =
   ResponsiveDataInputRadioButtonGroupConfigModel|
   ResponsiveDataInputNumberInputConfigModel|
   ResponsiveDataInputTextInputConfigModel|never
+
 export type ResponsiveContentInjectionConfigModelType =
   ResponsiveContentInjectionDialogConfigModel|
   ResponsiveContentInjectionMenubarConfigModel|
-  ResponsiveContentInjectionTableConfigModel|never
+  ResponsiveContentInjectionTableConfigModel|
+  ResponsiveContentInjectionToastConfigModel|never
+
 export type ResponsiveComponentSpecificLayoutConfigModelType =
   ResponsiveContainerChildLayoutConfigModel|
+  ResponsiveToastLayoutConfigModel|
   ResponsiveTableLayoutConfigModel|never
 
-export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar|Card
+export type ComponentModelType = Container|Table|Button|Icon|RadioButtonGroup|Multiselect|Dialog|TextInput|NumberInput|Form|Menubar|Toolbar|Card|Toast
 export type DataRecord= {
   [key:string]: List|DataRecord|RenderPropertyType|RenderPropertyTypeList<RenderPropertyType>
 } & {

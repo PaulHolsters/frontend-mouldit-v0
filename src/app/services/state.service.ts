@@ -17,16 +17,7 @@ import {MultiSelect} from "../componentclasses/MultiSelect";
 import {Menubar} from "../componentclasses/Menubar";
 import {Toolbar} from "../componentclasses/Toolbar";
 import {Card} from "../componentclasses/Card";
-import {EffectIdType} from "../types/type-aliases";
-import {TriggerType} from "../enums/triggerTypes.enum";
-import {ServiceType} from "../enums/serviceTypes.enum";
-import {ActionType} from "../enums/actionTypes.enum";
-import {ActionsService} from "./actions.service";
-import {ServerDataService} from "./data/server/server-data.service";
-import {ClientDataService} from "./data/client/client-data.service";
-import {ResponsiveBehaviourService} from "./responsive-behaviour.service";
-import {RenderPropertiesService} from "./renderProperties.service";
-import {UiActionsService} from "./ui-actions.service";
+import {Toast} from "../componentclasses/Toast";
 @Injectable({
   providedIn: 'root'
 })
@@ -89,6 +80,8 @@ export class StateService {
         return Toolbar.getProperties()
       case ComponentType.Card:
         return Card.getProperties()
+      case ComponentType.Toast:
+        return Toast.getProperties()
       default:
         throw new Error('Er bestaat geen component van het type '+type)
     }
@@ -132,5 +125,11 @@ export class StateService {
       if(obj)
         obj.properties.set(data.key,data.value)
     }
+  }
+
+  getNumberOfComponents(targetName: string) {
+    return this.componentData.filter(cd=>{
+      return cd.name===targetName
+    }).length
   }
 }

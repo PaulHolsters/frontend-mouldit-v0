@@ -1,15 +1,16 @@
-import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Component as AbstractComponent} from "../Component";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {TriggerType} from "../../enums/triggerTypes.enum";
 import {Card} from "../../componentclasses/Card";
+
 @Component({
   selector: 'm-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CardComponent extends AbstractComponent implements OnInit {
+export class CardComponent extends AbstractComponent implements OnInit,AfterViewInit {
   @ViewChild('card') card:any|undefined
   ngOnInit(): void {
     this.props = Card.getProperties()
@@ -70,7 +71,16 @@ export class CardComponent extends AbstractComponent implements OnInit {
     // met de DOM JS functie getComputedStyle(this.menubar.el.nativeElement)
     // todo implementeer dit in het algemeen voor alle componenten
     // todo en dan kan je dit ook meteen doen voor setCalculatedHeight en Width
+    this.stateService.syncData(this.name,{key:PropertyName.elRef,value:this.card},this.index)
     this.eventsService.triggerEvent(TriggerType.ComponentReady, this.name,this.card)
+
+    if(typeof this.index === 'number'){
+      const parentName = this.configService.getParentConfigFromRoot(this.name)?.name
+      if(parentName){
+        const od = this.stateService.getValue(parentName,PropertyName.outputData)
+        if(od instanceof Array && (od.length-1===this.index)) this.trigger(TriggerType.LastIndexedComponentRendered)
+      }
+    }
 
   }
 }

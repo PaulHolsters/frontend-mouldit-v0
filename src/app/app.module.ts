@@ -23,7 +23,6 @@ import { LabelComponent } from './components/form/label/label.component';
 import { DataComponent } from './components/data/data.component';
 import { NumberComponent } from './components/number/number.component';
 import { DateComponent } from './components/form/date/date.component';
-import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/form/form.component';
 import {KeyFilterModule} from "primeng/keyfilter";
@@ -86,7 +85,6 @@ import {ToolbarModule} from "primeng/toolbar";
     InputTextModule,
     ImageModule,
     FormsModule,
-    GraphQLModule,
     HttpClientModule,
     KeyFilterModule,
     InputNumberModule,

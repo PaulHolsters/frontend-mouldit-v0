@@ -5,7 +5,6 @@ import {ConfigService} from "../../config.service";
 import {ActionType} from "../../../enums/actionTypes.enum";
 import {Action} from "../../../effectclasses/Action";
 import {TriggerType} from "../../../enums/triggerTypes.enum";
-import {Apollo} from "apollo-angular";
 import {
   ActionIdType,
   ComponentNameType, EffectAsSource, EffectIdType,
@@ -25,7 +24,6 @@ import {HttpClient} from "@angular/common/http";
 export class ServerDataService {
   public actionFinished = new Subject<{trigger:TriggerType.ActionFinished,source:[EffectIdType,number|undefined]|ActionIdType}>()
   constructor(private configService:ConfigService,
-              private apollo: Apollo,
               private actionsService:ActionsService,
               private clientDataService:ClientDataService,
               private http: HttpClient

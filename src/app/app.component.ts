@@ -1,5 +1,4 @@
 import {Component, OnInit,} from '@angular/core'
-import {Apollo} from "apollo-angular";
 
 @Component({
   selector: 'app-root',
@@ -7,23 +6,10 @@ import {Apollo} from "apollo-angular";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private apollo:Apollo) {
+  constructor() {
   }
 
   ngOnInit(): void {
-/*    const results = this.apollo
-      .watchQuery({
-        query: gql`
-                    {
-                      getProducts{
-                        name
-                      }
-                    }
-        `,
-      })
-    results.valueChanges.subscribe(res=>{
-      console.log(res.data)
-    })*/
   }
 
 
