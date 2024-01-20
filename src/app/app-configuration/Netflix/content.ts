@@ -37,5 +37,5 @@ content.size.smartphone.setHeight(new NonCalculatedSizeConfigModel(70,SizeUnitCo
 content.setChildren([card]);
 (content.componentSpecificLayout.smartphone.layout as RowLayoutConfigModel)
   .setHorizontalLayoutOfChildren(HorizontalRowLayoutConfigType.Around)
-  // todo deze werd nog iet geïmplemnteerd .setPositionOfRows(RowPositioningConfigType.Center)
+  // todo deze werd nog iet geïmplementeerd .setPositionOfRows(RowPositioningConfigType.Center)
   .setVerticalLayoutOfChildren(VerticalRowLayoutConfigType.Center)
