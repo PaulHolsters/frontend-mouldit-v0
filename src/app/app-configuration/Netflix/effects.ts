@@ -37,8 +37,8 @@ const setCardWidth = (stateService: StateService): string | undefined => {
   }
   return undefined
 }
-const toastConstructMovieAdded = (data: {
-  data: { _id: string, titel: string }, error?: {
+const toastConstructMovieAdded = (data:
+ { id: string, message: string , error?: {
     errorcode: number, errorMessage: string;
   }
 }): Message => {
@@ -52,7 +52,7 @@ const toastConstructMovieAdded = (data: {
   debugger
   return {
     severity: 'success',
-    detail: 'Film ' + data.data.titel + ' werd toegevoegd aan jouw lijst'
+    detail: data.message
   }
 }
 export const effects: Effect[] = [
@@ -88,6 +88,15 @@ export const effects: Effect[] = [
     new Trigger(TriggerType.ComponentClicked,'add'),
     new ServerAction('addMovieToList','content'),
     'adding movie to my list'
+  ),
+  new Effect(
+    new Trigger(TriggerType.ActionFinished, 'addMovieToList'),
+    new Action('construct toast object', ActionType.Calculation, undefined, undefined, toastConstructMovieAdded)
+  ),
+
+  new Effect(
+    new Trigger(TriggerType.ActionFinished, 'construct toast object'),
+    new Action('show message', ActionType.ShowToastMessage, 'toast')
   ),
   new Effect(
     new Trigger(TriggerType.ComponentClicked,'movie-card','movie-card-clicked',allowDetails),

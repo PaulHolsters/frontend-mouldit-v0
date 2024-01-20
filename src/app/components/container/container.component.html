@@ -1,3 +1,9 @@
+
+<!--TODO  fix bug: de outer div mag niet gelijk zijn aan de eigen afmetingen indien het
+                  een container is die een child is van een andere container
+          strategie: ?
+ -->
+
 <div
   [class.flex]="getPropValue(PropertyName.visible)"
   [class.flex-row]="getPropValue(PropertyName.row)"
@@ -19,9 +25,9 @@
   [class.align-content-evenly]="getPropValue(PropertyName.alignContentEvenly)"
   [class.align-content-around]="getPropValue(PropertyName.alignContentAround)"
   [class.align-content-between]="getPropValue(PropertyName.alignContentBetween)"
-  [style.height]="getPropValue(PropertyName.height)"
-  [style.width]="getPropValue(PropertyName.width)"
 
+  [style.height]="isChildContainer ? '100%':getPropValue(PropertyName.height)"
+  [style.width]="isChildContainer ? '100%':getPropValue(PropertyName.width)"
 
   [class.overflow-hidden]="getPropValue(PropertyName.overflowHidden)"
   [class.overflow-x-hidden]="getPropValue(PropertyName.overflowXHidden)"
@@ -65,6 +71,12 @@
            todo moeten de andere is container checks dan ook niet gewoon weg?
 
      TODO bij repeater moet bovenste div props overgenomen worden
+             [style.height]="
+        (bindToStateProperty(child.name,PropertyName.repeater,index)|async)!==true ?
+        (bindToStateProperty(child.name,PropertyName.height,index)|async) : getPropValue(PropertyName.height)"
+        [style.width]="
+        (bindToStateProperty(child.name,PropertyName.repeater,index)|async)!==true ?
+        (bindToStateProperty(child.name,PropertyName.width,index)|async) : getPropValue(PropertyName.width)"
       -->
       <div
         [class.visibilityHidden]="
@@ -78,10 +90,10 @@
 
         [style.height]="
         (bindToStateProperty(child.name,PropertyName.repeater,index)|async)!==true ?
-        (bindToStateProperty(child.name,PropertyName.height,index)|async) : getPropValue(PropertyName.height)"
+        (bindToStateProperty(child.name,PropertyName.height,index)|async) : '100%'"
         [style.width]="
         (bindToStateProperty(child.name,PropertyName.repeater,index)|async)!==true ?
-        (bindToStateProperty(child.name,PropertyName.width,index)|async) : getPropValue(PropertyName.width)"
+        (bindToStateProperty(child.name,PropertyName.width,index)|async) : '100%'"
 
         [class.flex-row]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.row):false"
         [class.flex-column]="(bindToStateProperty(child.name,PropertyName.repeater,index)|async)===true ? getPropValue(PropertyName.column):false"
@@ -166,9 +178,13 @@
                         [index]="index"
         ></m-button>
 
-        <m-container *ngSwitchCase="ComponentType.Container" [name]="child.name"  [class]="[
-         'flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
+        <m-container
+          *ngSwitchCase="ComponentType.Container"
+          [name]="child.name"
+          [class]="['flex-shrink-'+((getShrinkVal(child.name)|async) === null? 0 : (getShrinkVal(child.name)|async)),
          'flex-grow-'+((getGrowVal(child.name)|async)=== null ? 0 : ((getGrowVal(child.name)|async)))]"
+          [style.height]="'100%'"
+          [style.width]="'100%'"
         ></m-container>
 
           <m-block       [class]="['flex',

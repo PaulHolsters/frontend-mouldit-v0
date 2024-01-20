@@ -4,6 +4,7 @@ import {VerticalRowLayoutConfigType} from "../../../enums/VerticalRowLayoutConfi
 export class RowLayoutConfigModel {
   public horizontalLayoutOfChildren: HorizontalRowLayoutConfigType=HorizontalRowLayoutConfigType.Left
   public verticalLayoutOfChildren: VerticalRowLayoutConfigType=VerticalRowLayoutConfigType.Top
+  // todo fix bugje
   public positionOfRows:RowPositioningConfigType=RowPositioningConfigType.Top
   public wrap: boolean = true
   setHorizontalLayoutOfChildren(layout:HorizontalRowLayoutConfigType){

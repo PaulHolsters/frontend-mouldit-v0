@@ -9,6 +9,7 @@ import {HorizontalRowLayoutConfigType} from "../../enums/HorizontalRowLayoutConf
 import {RowLayoutConfigModel} from "../../design-dimensions/ComponentSpecificLayout/Container/RowLayoutConfigModel";
 import {SizeUnitConfigType} from "../../enums/sizeUnitConfigTypes.enum";
 import {NonCalculatedSizeConfigModel} from "../../design-dimensions/Size/NonCalculatedSizeConfigModel";
+import {VerticalRowLayoutConfigType} from "../../enums/VerticalRowLayoutConfigTypes.enum";
 
 export const content = new Container('content')
 const card = new Card('movie-card')
@@ -31,7 +32,10 @@ btnContainer.setChildren([add,remove])
 card.contentInjection.smartphone.footer = btnContainer
 card.structural.smartphone.repeater = true
 // todo fix bug deze 70% komt qua hoogte nu op content de buitenste en de binnenste div: de rest is nu in orde
+//      buiten 70 binnenste altijd 100 denk ik
 content.size.smartphone.setHeight(new NonCalculatedSizeConfigModel(70,SizeUnitConfigType.Percentage))
 content.setChildren([card]);
 (content.componentSpecificLayout.smartphone.layout as RowLayoutConfigModel)
   .setHorizontalLayoutOfChildren(HorizontalRowLayoutConfigType.Around)
+  // todo deze werd nog iet geïmplemnteerd .setPositionOfRows(RowPositioningConfigType.Center)
+  .setVerticalLayoutOfChildren(VerticalRowLayoutConfigType.Center)

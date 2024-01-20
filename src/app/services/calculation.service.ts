@@ -5,14 +5,6 @@ import {ActionIdType, EffectIdType} from "../types/type-aliases";
 import {ActionsService} from "./actions.service";
 import {Action} from "../effectclasses/Action";
 import {ActionType} from "../enums/actionTypes.enum";
-import {Effect} from "../effectclasses/Effect";
-import {ResponsiveSizeConfigModel} from "../design-dimensions/Size/ResponsiveSizeConfigModel";
-import {ResponsiveOverflowConfigModel} from "../design-dimensions/Overflow/ResponsiveOverflowConfigModel";
-import {
-  ResponsiveContainerChildLayoutConfigModel
-} from "../design-dimensions/ComponentSpecificLayout/Container/ResponsiveContainerChildLayoutConfigModel";
-import {ResponsiveVisibilityConfigModel} from "../design-dimensions/Visibility/ResponsiveVisibilityConfigModel";
-import {ActionValueModel} from "../design-dimensions/ActionValueModel";
 import {StateService} from "./state.service";
 
 @Injectable({
@@ -40,7 +32,6 @@ export class CalculationService {
   }
 
   private calculate(input: { action: Action, data: Object }): unknown {
-    // effect.action bevat de manipulatie, data bevat het JS object dat je als parameter voor de manipulatie moet gebruiken
     if (typeof (input.action.value) === 'function') {
       return (input.action.value)(input.data, this.stateService)
     }

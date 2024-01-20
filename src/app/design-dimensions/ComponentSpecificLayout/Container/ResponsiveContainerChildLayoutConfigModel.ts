@@ -59,6 +59,7 @@ implements ResponsiveConfigModelI<ChildLayoutConfigModel>{
     const parentPropsObj = new ParentRenderPropertiesModel()
     const childPropsObj = new ChildPropertiesRenderModel()
     parentPropsObj.wrap = childLayoutConfig.layout.wrap
+    // todo align-content property is vergeten?
     if(childLayoutConfig.layout instanceof RowLayoutConfigModel){
       parentPropsObj.row = true
       parentPropsObj.column = false

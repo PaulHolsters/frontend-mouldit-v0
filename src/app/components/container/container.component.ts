@@ -6,6 +6,7 @@ import {Component as AbstractComponent} from "../Component"
 import {Container} from "../../componentclasses/Container";
 import {PropertyName} from "../../enums/PropertyNameTypes.enum";
 import {ComponentNameType} from "../../types/type-aliases";
+import {ComponentType} from "../../enums/componentTypes.enum";
 
 @Component({
   selector: 'm-container',
@@ -15,6 +16,7 @@ import {ComponentNameType} from "../../types/type-aliases";
 export class ContainerComponent extends AbstractComponent implements OnInit, AfterContentChecked ,AfterViewInit{
   @ViewChild('container') container: ElementRef | undefined
   childProps: Map<ComponentNameType, (Map<PropertyName, string | undefined>)> = new Map()
+  isChildContainer:boolean|undefined
   ngAfterContentChecked(): void {
     this.cd.detectChanges()
   }
@@ -63,6 +65,7 @@ export class ContainerComponent extends AbstractComponent implements OnInit, Aft
     }
     this.eventsService.triggerEvent(TriggerType.ComponentInitialized, this.name)
     this.props = Container.getProperties()
+    this.isChildContainer = this.configService.getParentConfigFromRoot(this.name)?.type===ComponentType.Container
     this.props.forEach((v, k) => {
       this.storeService.bindToStateProperty(this.name, k, this.index)?.subscribe(res => {
         // als de key niet bestaat wordt deze bijgemaakt hou daar rekening mee!

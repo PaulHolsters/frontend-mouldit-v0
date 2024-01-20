@@ -15,6 +15,7 @@ import {
   ColumnLayoutConfigModel
 } from "../../design-dimensions/ComponentSpecificLayout/Container/ColumnLayoutConfigModel";
 import {VerticalColumnLayoutConfigType} from "../../enums/VerticalColumnLayoutConfigTypes.enum";
+import {toast} from "./toast";
 
 const mainContainer: Container = new Container('content-container')
 mainContainer.size.smartphone.setHeight(new CalculatedSizeConfigModel('(100vh - 16px)'));
@@ -38,7 +39,8 @@ templateContainer.setChildren([
 ])
 mainContainer.setChildren([
   templateContainer,
-  movieDetailsDialog
+  movieDetailsDialog,
+  toast
 ])
 export const RootComponent = new AppConfig({
   components: [
